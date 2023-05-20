@@ -84,11 +84,11 @@ void bc660k_quectel::getICCID(char* iccid){
 						1 Short format alphanumeric <oper>
 						2 Numeric <oper>. Only valid when <mode>=1 or <mode>=4 
 						default = 2
-* @param  [oper]: MCC for operator, default "72403"					
+ * @param  [oper]: MCC for operator	= "Empty"				
  * @return [0]: Fail to send command.
  * @return [1]: Success to send command.
 **/
-uint8_t bc660k_quectel::setOperator(int mode, int format = 2, char* oper = "72403"){
+uint8_t bc660k_quectel::setOperator(int mode, int format,  const char* oper){
 
 	uint8_t returnCode = 0;
 

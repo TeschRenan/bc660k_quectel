@@ -130,7 +130,7 @@ class bc660k_quectel {
    
         bc660k_quectel();
         void    getICCID(char* iccid);
-        uint8_t setOperator(int mode, int format, char* oper);
+        uint8_t setOperator(int mode, int format = 2, const char* oper = " ");
         uint8_t getCurrentDateTime(char* utc);
         uint8_t getOperator(char* mcc);
 		int8_t  getRSSI();
