@@ -94,7 +94,7 @@ uint8_t bc660k_quectel::setOperator(int mode, int format,  const char* oper){
 
 	char temp[256] = {0};
 
-	if(mode == 1){
+	if(mode != 0){
 
 		sprintf(temp,"%s%d,%d,\"%s\"%s","AT+COPS=",mode,format,oper,"\r\n");
 
