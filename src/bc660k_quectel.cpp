@@ -53,6 +53,7 @@ void bc660k_quectel::strip_cr_lf_tail(char *str, uint32_t len)
 void bc660k_quectel::getICCID(char* iccid){
 
 	char temp[256] = {0};
+	char iccid_str[32] = {0};
 
 	modemLib.write("AT+QCCID\r\n");
 	
@@ -62,11 +63,11 @@ void bc660k_quectel::getICCID(char* iccid){
 		
 	}
 
-	if ((temp != NULL) && (temp[0] != '\0')) {
+	if (temp[0] != '\0') {
 
 		sscanf(temp, "%*s%s%*s", iccid);
 
-		int len = snprintf(iccid, 21, "%s", iccid);
+		int len = snprintf(iccid_str, 21, "%s",iccid);
         if (len > 2) {
             /* Strip "\r\n" */
             strip_cr_lf_tail(iccid, len);
@@ -146,9 +147,9 @@ uint8_t bc660k_quectel::getCurrentDateTime(char* utc){
 
 		ESP_LOGW(TAG, "AT+CCLK? RESPONSE ---> %s",temp);
 
-		sscanf(temp, "%*s%d/%d/%d,%d:%d:%d%*s", &year, &month, &day , &hour , &minute , &second);
+		sscanf(temp, "%*s%lu/%lu/%lu,%lu:%lu:%lu%*s", &year, &month, &day , &hour , &minute , &second);
 
-		ESP_LOGW(TAG,"%d/%d/%d,%d:%d:%d", year, month, day , hour , minute , second);
+		ESP_LOGW(TAG,"%lu/%lu/%lu,%lu:%lu:%lu", year, month, day , hour , minute , second);
 		
 	}
 
@@ -202,23 +203,23 @@ uint8_t bc660k_quectel::getOperator(char* mcc){
 
 		ESP_LOGW(TAG, "AT+COPS? RESPONSE ---> %s",temp);
 		
-		if ((temp != NULL) && (temp[0] != '\0')) {
+		if (temp[0] != '\0') {
 
-		mcc = strstr(temp, ",\"");
-		
-		if (mcc) {
-			mcc += 2;
-			char *s = strchr(mcc, '\"');
-			if (s) *s = 0;
-			return 1;
+			mcc = strstr(temp, ",\"");
 			
-		}
-		}
-		else{
-	
-			ESP_LOGW(TAG, "Operator Name Empty");
+			if (mcc) {
+				mcc += 2;
+				char *s = strchr(mcc, '\"');
+				if (s) *s = 0;
+				return 1;
+				
+			}
+			}
+			else{
 		
-		}
+				ESP_LOGW(TAG, "Operator Name Empty");
+			
+			}
 
 	}
 
@@ -244,7 +245,7 @@ int8_t bc660k_quectel::getRSSI(){
 		
 	}
 	
-	if ((temp != NULL) && (temp[0] != '\0')) {
+	if (temp[0] != '\0') {
 
 		sscanf(temp, "%*s%d,%*s", &RSSI);
 
