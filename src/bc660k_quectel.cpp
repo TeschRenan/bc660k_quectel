@@ -65,14 +65,8 @@ void bc660k_quectel::getICCID(char* iccid){
 
 	if (temp[0] != '\0') {
 
-		sscanf(temp, "%*s%s%*s", iccid);
-
-		int len = snprintf(iccid_str, 21, "%s",iccid);
-        if (len > 2) {
-            /* Strip "\r\n" */
-            strip_cr_lf_tail(iccid, len);
-
-        }
+    	char * command = strtok (temp," ");
+		sprintf(iccid,"%s",strtok (NULL,"."));
 	
 	}
 
